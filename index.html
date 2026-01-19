@@ -629,6 +629,19 @@ body {
   letter-spacing: 0.4px;
 }
 
+.nav-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 22px;
+  font-weight: 800;
+  color: #2D3748;   /* soft black */
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+
 
   </style>
 </head>
@@ -637,15 +650,22 @@ body {
 
 
 <div class="top-nav">
+  <!-- LEFT -->
   <div class="logo-container">
     <img src="ascendion-logo.png" alt="Company Logo">
-    <span class="logo-text">GOVERNANCE DASHBOARD</span>
   </div>
+
+  <!-- CENTER -->
+  <div class="nav-title">
+    Corporate Real Estate Intelligence Hub
+  </div>
+
+  <!-- RIGHT -->
   <div class="nav-actions">
     <button class="nav-btn" id="homeBtn" onclick="handleHomeClick()">🏠 Home</button>
-    
   </div>
 </div>
+
 
 <div class="top-section" id="topSection">
   
@@ -663,7 +683,7 @@ body {
     <div class="metric-box">
       <div class="metric-icon">🏢</div>
       <div class="metric-value" id="totalRealEstate">--</div>
-      <div class="metric-label">Real Estate in Sq Feet</div>
+      <div class="metric-label">Real Estate(Sq Feet)</div>
     </div>
     <div class="metric-box">
       <div class="metric-icon">👥</div>
@@ -842,30 +862,38 @@ fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_
       }
 
       cityData[city].push({
-        location: r.c[0]?.v,
-        state: r.c[1]?.v,
-        country: r.c[2]?.v,
-        status: r.c[3]?.v,
-        officeType: r.c[4]?.v,
-        buType: r.c[5]?.v,
-        address: r.c[6]?.v,
+  location: r.c[0]?.v,          // A
+  country: r.c[1]?.v,           // B
+  state: r.c[2]?.v,             // C
+  status: r.c[3]?.v,            // D
+  officeType: r.c[4]?.v,        // E
+  buType: r.c[5]?.v,             // F
+  address: r.c[6]?.v,           // G
 
-        leaseStart: r.c[7]?.f || r.c[7]?.v,
-        leaseEnd: r.c[8]?.f || r.c[8]?.v,
-        noticePeriod: r.c[9]?.v,
+  leaseStart: r.c[7]?.f || r.c[7]?.v,   // H
+  leaseEnd: r.c[8]?.f || r.c[8]?.v,     // I
+  noticePeriod: r.c[9]?.v,               // J
 
-        realEstate: r.c[10]?.v,
-        workStation: r.c[11]?.v,
-        employees: r.c[12]?.v,
+  realEstate: r.c[10]?.v,        // K
+  SeatingCapacity: r.c[11]?.v,  // L
+  employees: r.c[12]?.v,         // M
 
-        monthlyBaseRent: r.c[13]?.f || r.c[13]?.v,
-        monthlyOpex: r.c[14]?.f || r.c[14]?.v,
-        annualSpend: r.c[15]?.f || r.c[15]?.v,
-        securityDeposit: r.c[16]?.f || r.c[16]?.v,
+  monthlyBaseRent: r.c[13]?.f || r.c[13]?.v, // N
+  monthlyOpex: r.c[14]?.f || r.c[14]?.v,     // O
+  capex: r.c[15]?.f || r.c[15]?.v,            // P
 
-        remarks: r.c[17]?.v
+  costPerSeat: r.c[16]?.f || r.c[16]?.v,  // Q
+  costPerSqft: r.c[17]?.f || r.c[17]?.v,      // R
+
+  annualSpend: r.c[18]?.f || r.c[18]?.v,      // S
+  assetValue: r.c[19]?.f || r.c[19]?.v,       // T
+  securityDeposit: r.c[20]?.f || r.c[20]?.v,  // U
+
+  remarks: r.c[21]?.v                          // V
+});
+
       });
-    });
+    
 
     updateHeaderMetrics(); // ✅ MUST stay here
   });
@@ -883,16 +911,16 @@ function updateHeaderMetrics() {
   let totalRE = 0;
   let totalPeople = 0;
   let totalSpend = 0;
-  let totalSecurityDeposit = 0;
+  let totalAssetValue = 0;
   let uniqueCountries = new Set();
 
   Object.values(cityData).flat().forEach(d => {
-    totalRE += cleanNumber(d.realEstate);
-    totalPeople += cleanNumber(d.employees);
-    totalSpend += cleanNumber(d.annualSpend);
-    totalSecurityDeposit += cleanNumber(d.securityDeposit);
-    if (d.country) uniqueCountries.add(d.country);
-  });
+  totalRE += cleanNumber(d.realEstate);
+  totalPeople += cleanNumber(d.employees);
+  totalSpend += cleanNumber(d.annualSpend);
+  totalAssetValue += cleanNumber(d.assetValue);
+  if (d.country) uniqueCountries.add(d.country);
+});
 
   // Countries
   document.getElementById("totalCountries").innerText = 10;
@@ -915,7 +943,10 @@ function updateHeaderMetrics() {
 
   // Asset Value (using Security Deposit as proxy) in Millions
   document.getElementById("assetValue").innerText =
-    totalSecurityDeposit ? "$" + (totalSecurityDeposit / 1_000_000).toFixed(2) + "M" : "--";
+  totalAssetValue
+    ? "$" + (totalAssetValue / 1_000_000).toFixed(2) + "M"
+    : "--";
+
 
   // Compliance - will be calculated from compliance sheet
   calculateOverallCompliance();
@@ -973,16 +1004,27 @@ function showWorld() {
   map.setView([20, 0], 2);
 
   Object.entries(countries).forEach(([name, c]) => {
-    const m = L.marker([c.lat, c.lng])
-      .addTo(map)
-      .bindTooltip(name, {
-        permanent: true,
-        className: "label"
-      })
-      .on("click", () => showCountry(name));
+  const m = L.marker([c.lat, c.lng])
+    .addTo(map)
+    .bindTooltip(name, {
+      permanent: true,
+      className: "label clickable-label",
+      interactive: true
+    })
+    .on("click", () => showCountry(name)); // dot click
 
-    countryMarkers.push(m);
+  // ✅ LABEL CLICK
+  m.on("tooltipopen", e => {
+    const el = e.tooltip.getElement();
+    if (el) {
+      el.style.cursor = "pointer";
+      el.onclick = () => showCountry(name);
+    }
   });
+
+  countryMarkers.push(m);
+});
+
 
   setTimeout(() => map.invalidateSize(), 0);
 }
@@ -1017,18 +1059,29 @@ function showCountry(country) {
       }
 
       const m = L.circleMarker([city[1], city[2]], {
-        radius: 7,
-        color: "#0a8f6a",
-        fillOpacity: 1
-      })
-        .addTo(map)
-        .bindTooltip(city[0], {
-          permanent: true,
-          className: "label",
-          direction,
-          offset
-        })
-        .on("click", () => openCity(city[0], country));
+  radius: 7,
+  color: "#0a8f6a",
+  fillOpacity: 1
+})
+  .addTo(map)
+  .bindTooltip(city[0], {
+    permanent: true,
+    className: "label clickable-label",
+    direction,
+    offset,
+    interactive: true
+  })
+  .on("click", () => openCity(city[0], country)); // dot click
+
+// ✅ LABEL CLICK
+m.on("tooltipopen", e => {
+  const el = e.tooltip.getElement();
+  if (el) {
+    el.style.cursor = "pointer";
+    el.onclick = () => openCity(city[0], country);
+  }
+});
+
 
       cityMarkers.push(m);
     });
@@ -1036,6 +1089,12 @@ function showCountry(country) {
     map.invalidateSize();
   }, 100);
 }
+
+const bangaloreOfficeNames = [
+  "Prestige Blue Chip Software Park",
+  "Roach Building"
+];
+
 
 function openCity(city, country) {
   currentView = "city";
@@ -1057,7 +1116,16 @@ function openCity(city, country) {
       <div class="office-block" style="margin-top: ${index === 0 ? '0' : '60px'}; padding-top: ${index === 0 ? '0' : '40px'}; border-top: ${index === 0 ? 'none' : '4px solid var(--teal)'};">
         ${offices.length > 1 ? `
   <div class="office-title" style="font-size: 26px; margin-bottom: 30px;">
-    🏢 Office ${index + 1}
+     ${offices.length > 1 ? `
+  <div class="office-title" style="font-size: 26px; margin-bottom: 30px;">
+    🏢 ${
+      city === "Bangalore"
+        ? bangaloreOfficeNames[index] || `Office ${index + 1}`
+        : `Office ${index + 1}`
+    }
+  </div>
+` : ``}
+
   </div>
 ` : ``}
 
@@ -1065,14 +1133,14 @@ function openCity(city, country) {
         <!-- Site Overview -->
         <h3 style="margin-top: 0;">Site Overview</h3>
         <div class="grid">
-          <div class="card">📍 Location<b>${NA(d.location)}</b></div>
-          <div class="card">🏙 State<b>${NA(d.state)}</b></div>
+          
           <div class="card">🌍 Country<b>${NA(d.country)}</b></div>
+          <div class="card">🏙 State<b>${NA(d.state)}</b></div>
           <div class="card">🏢 Office Type<b>${NA(d.officeType)}</b></div>
 
           <div class="card">🧭 BU Type<b>${NA(d.buType)}</b></div>
           <div class="card">👥 Employees<b>${NA(d.employees)}</b></div>
-          <div class="card">💺 Work Stations<b>${NA(d.workStation)}</b></div>
+          <div class="card">💺 Seating Capacity<b>${NA(d.SeatingCapacity)}</b></div>
           <div class="card">📐 Area (Sqft)<b>${NA(d.realEstate)}</b></div>
 
           <div class="card" style="grid-column: span 4;">
@@ -1097,8 +1165,13 @@ function openCity(city, country) {
         <div class="grid">
           <div class="card">💵 Monthly Base Rent<b>${NA(d.monthlyBaseRent)}</b></div>
           <div class="card">🧾 Monthly OPEX<b>${NA(d.monthlyOpex)}</b></div>
+          <div class="card">💎 Asset Value<b>${NA(d.assetValue)}</b></div>
+  <div class="card">🏗 CapEx<b>${NA(d.capex)}</b></div>
+  <div class="card">💺 Cost / Seat<b>${NA(d.costPerSeat)}</b></div>
+  <div class="card">📐 Cost / Sqft<b>${NA(d.costPerSqft)}</b></div>
           <div class="card">📊 Annual Spend<b>${NA(d.annualSpend)}</b></div>
           <div class="card">🔐 Security Deposit<b>${NA(d.securityDeposit)}</b></div>
+
           ${d.remarks ? `
           <div class="card" style="grid-column: span 4;">
             📝 Remarks
