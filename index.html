@@ -847,6 +847,22 @@ const cities = {
 const cityData = {};
 const NA = v => (v === null || v === undefined || v === "" ? "NA" : v);
 
+
+function formatUSD(value) {
+  if (value === null || value === undefined || value === "" || value === "NA") {
+    return "NA";
+  }
+
+  const num = Number(String(value).replace(/,/g, ""));
+  if (isNaN(num)) return value;
+
+  return "$" + num.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+
 fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_NAME}`)
   .then(r => r.text())
   .then(t => {
@@ -1169,26 +1185,25 @@ function openCity(city, country) {
 
 </div>
 
-<!-- Financial Summary -->
 <h3>Financial Summary</h3>
 <div class="grid">
 
-  <div class="card">💵 Monthly Base Rent<b>${NA(d.monthlyBaseRent)}</b></div>
-  <div class="card">🧾 Monthly OPEX<b>${NA(d.monthlyOpex)}</b></div>
-  <div class="card">🏗 CapEx<b>${NA(d.capex)}</b></div>
-  <div class="card">📊 Annual Spend<b>${NA(d.annualSpend)}</b></div>
+  <div class="card">💵 Monthly Base Rent<b>${formatUSD(d.monthlyBaseRent)}</b></div>
+  <div class="card">🧾 Monthly OPEX<b>${formatUSD(d.monthlyOpex)}</b></div>
+  <div class="card">🏗 CapEx<b>${formatUSD(d.capex)}</b></div>
+  <div class="card">📊 Annual Spend<b>${formatUSD(d.annualSpend)}</b></div>
 
-  <div class="card">💎 Asset Value<b>${NA(d.assetValue)}</b></div>
-  <div class="card">🔐 Security Deposit<b>${NA(d.securityDeposit)}</b></div>
+  <div class="card">💎 Asset Value<b>${formatUSD(d.assetValue)}</b></div>
+  <div class="card">🔐 Security Deposit<b>${formatUSD(d.securityDeposit)}</b></div>
 
-  <div class="card">💺 Cost / Seat<b>${NA(d.costPerSeat)}</b></div>
-  <div class="card">📐 Cost / Sqft<b>${NA(d.costPerSqft)}</b></div>
+  <div class="card">💺 Cost / Seat<b>${formatUSD(d.costPerSeat)}</b></div>
+  <div class="card">📐 Cost / Sqft<b>${formatUSD(d.costPerSqft)}</b></div>
 
-  <div class="card">📐 Opex / Sqft<b>${NA(d.opexPerSqft)}</b></div>
-  <div class="card">💺 Opex / Seat<b>${NA(d.opexPerSeat)}</b></div>
+  <div class="card">📐 Opex / Sqft<b>${formatUSD(d.opexPerSqft)}</b></div>
+  <div class="card">💺 Opex / Seat<b>${formatUSD(d.opexPerSeat)}</b></div>
 
-  <div class="card">🏗 Capex / Sqft<b>${NA(d.capexPerSqft)}</b></div>
-  <div class="card">🪑 Capex / Seat<b>${NA(d.capexPerSeat)}</b></div>
+  <div class="card">🏗 Capex / Sqft<b>${formatUSD(d.capexPerSqft)}</b></div>
+  <div class="card">🪑 Capex / Seat<b>${formatUSD(d.capexPerSeat)}</b></div>
 
   ${d.remarks ? `
   <div class="card" style="grid-column: span 4;">
@@ -1198,6 +1213,7 @@ function openCity(city, country) {
   ` : ''}
 
 </div>
+
 
       </div>
     `;
