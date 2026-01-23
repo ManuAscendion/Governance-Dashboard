@@ -768,7 +768,7 @@ body {
 <script>
 /* ================= GOOGLE SHEETS CONFIG ================= */
 const SHEET_ID = "14Bz3QibO5MWiOjaF-pvSfDs3enW5Nd6R";
-const SHEET_NAME = "ASCENDION";
+const SHEET_NAME = "UPDATED";
 
 /* ================= MAP INIT ================= */
 let map = L.map("map").setView([20, 0], 2);
@@ -865,32 +865,41 @@ fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_
   location: r.c[0]?.v,          // A
   country: r.c[1]?.v,           // B
   state: r.c[2]?.v,             // C
-  status: r.c[3]?.v,            // D
-  officeType: r.c[4]?.v,        // E
-  buType: r.c[5]?.v,             // F
+
+  officeType: r.c[3]?.v,        // D
+  buType: r.c[4]?.v,            // E
+  officeName: r.c[5]?.v,        // F
+
   address: r.c[6]?.v,           // G
 
   leaseStart: r.c[7]?.f || r.c[7]?.v,   // H
   leaseEnd: r.c[8]?.f || r.c[8]?.v,     // I
-  noticePeriod: r.c[9]?.v,               // J
+  lockIn: r.c[9]?.v,                   // J
+  noticePeriod: r.c[10]?.v,             // K
 
-  realEstate: r.c[10]?.v,        // K
-  SeatingCapacity: r.c[11]?.v,  // L
-  employees: r.c[12]?.v,         // M
+  realEstate: r.c[11]?.v,        // L
+  seatingCapacity: r.c[12]?.v,  // M
+  employees: r.c[13]?.v,         // N
 
-  monthlyBaseRent: r.c[13]?.f || r.c[13]?.v, // N
-  monthlyOpex: r.c[14]?.f || r.c[14]?.v,     // O
-  capex: r.c[15]?.f || r.c[15]?.v,            // P
+  monthlyBaseRent: r.c[14]?.f || r.c[14]?.v, // O
+  monthlyOpex: r.c[15]?.f || r.c[15]?.v,     // P
+  capex: r.c[16]?.f || r.c[16]?.v,           // Q
 
-  costPerSeat: r.c[16]?.f || r.c[16]?.v,  // Q
-  costPerSqft: r.c[17]?.f || r.c[17]?.v,      // R
+  costPerSeat: r.c[17]?.f || r.c[17]?.v,     // R
+  costPerSqft: r.c[18]?.f || r.c[18]?.v,     // S
 
-  annualSpend: r.c[18]?.f || r.c[18]?.v,      // S
-  assetValue: r.c[19]?.f || r.c[19]?.v,       // T
-  securityDeposit: r.c[20]?.f || r.c[20]?.v,  // U
+  annualSpend: r.c[19]?.f || r.c[19]?.v,     // T
+  assetValue: r.c[20]?.f || r.c[20]?.v,      // U
 
-  remarks: r.c[21]?.v                          // V
+  opexPerSqft: r.c[21]?.f || r.c[21]?.v,     // V
+  opexPerSeat: r.c[22]?.f || r.c[22]?.v,     // W
+  capexPerSqft: r.c[23]?.f || r.c[23]?.v,    // X
+  capexPerSeat: r.c[24]?.f || r.c[24]?.v,    // Y
+
+  securityDeposit: r.c[25]?.f || r.c[25]?.v, // Z
+  remarks: r.c[26]?.v                        // AA
 });
+
 
       });
     
@@ -1111,74 +1120,85 @@ function openCity(city, country) {
   let allOfficesHTML = "";
 
   offices.forEach((d, index) => {
-    // Build complete office block with all sections
-    allOfficesHTML += `
-      <div class="office-block" style="margin-top: ${index === 0 ? '0' : '60px'}; padding-top: ${index === 0 ? '0' : '40px'}; border-top: ${index === 0 ? 'none' : '4px solid var(--teal)'};">
-        ${offices.length > 1 ? `
-  <div class="office-title" style="font-size: 26px; margin-bottom: 30px;">
-     ${offices.length > 1 ? `
-  <div class="office-title" style="font-size: 26px; margin-bottom: 30px;">
-    🏢 ${
-      city === "Bangalore"
-        ? bangaloreOfficeNames[index] || `Office ${index + 1}`
-        : `Office ${index + 1}`
-    }
-  </div>
-` : ``}
 
-  </div>
-` : ``}
+  allOfficesHTML += `
+    <div class="office-block"
+      style="
+        margin-top: ${index === 0 ? '0' : '60px'};
+        padding-top: ${index === 0 ? '0' : '40px'};
+        border-top: ${index === 0 ? 'none' : '4px solid var(--teal)'};
+      ">
 
-
-        <!-- Site Overview -->
-        <h3 style="margin-top: 0;">Site Overview</h3>
-        <div class="grid">
-          
-          <div class="card">🌍 Country<b>${NA(d.country)}</b></div>
-          <div class="card">🏙 State<b>${NA(d.state)}</b></div>
-          <div class="card">🏢 Office Type<b>${NA(d.officeType)}</b></div>
-
-          <div class="card">🧭 BU Type<b>${NA(d.buType)}</b></div>
-          <div class="card">👥 Employees<b>${NA(d.employees)}</b></div>
-          <div class="card">💺 Seating Capacity<b>${NA(d.SeatingCapacity)}</b></div>
-          <div class="card">📐 Area (Sqft)<b>${NA(d.realEstate)}</b></div>
-
-          <div class="card" style="grid-column: span 4;">
-            📫 Address
-            <b style="font-size:16px; line-height:1.4;">
-              ${NA(d.address)}
-            </b>
-          </div>
+      ${d.officeName && d.officeName.trim() !== "" ? `
+        <div class="office-title" style="font-size: 26px; margin-bottom: 30px;">
+          🏢 ${d.officeName}
         </div>
+      ` : ``}
 
-        <!-- Lease Details -->
-        <h3>Lease & Occupancy Details</h3>
-        <div class="grid">
-          <div class="card">📅 Lease Start<b>${NA(d.leaseStart)}</b></div>
-          <div class="card">📅 Lease End<b>${NA(d.leaseEnd)}</b></div>
-          <div class="card">⏱ Notice Period<b>${NA(d.noticePeriod)} days</b></div>
-          <div class="card">📌 Status<b>${NA(d.status)}</b></div>
-        </div>
 
-        <!-- Financial Summary -->
-        <h3>Financial Summary</h3>
-        <div class="grid">
-          <div class="card">💵 Monthly Base Rent<b>${NA(d.monthlyBaseRent)}</b></div>
-          <div class="card">🧾 Monthly OPEX<b>${NA(d.monthlyOpex)}</b></div>
-          <div class="card">💎 Asset Value<b>${NA(d.assetValue)}</b></div>
+       <!-- Site Overview -->
+<h3 style="margin-top: 0;">Site Overview</h3>
+<div class="grid">
+
+  <div class="card">🌍 Country<b>${NA(d.country)}</b></div>
+  <div class="card">🏙 State<b>${NA(d.state)}</b></div>
+  <div class="card">🏢 Office Type<b>${NA(d.officeType)}</b></div>
+
+  <div class="card">🧭 BU Type<b>${NA(d.buType)}</b></div>
+  <div class="card">👥 Employees<b>${NA(d.employees)}</b></div>
+  <div class="card">💺 Seating Capacity<b>${NA(d.seatingCapacity)}</b></div>
+  <div class="card">📐 Area (Sqft)<b>${NA(d.realEstate)}</b></div>
+
+  <div class="card" style="grid-column: span 4;">
+    📫 Address
+    <b style="font-size:16px; line-height:1.4;">
+      ${NA(d.address)}
+    </b>
+  </div>
+
+</div>
+
+<!-- Lease Details -->
+<h3>Lease & Occupancy Details</h3>
+<div class="grid">
+
+  <div class="card">📅 Lease Start<b>${NA(d.leaseStart)}</b></div>
+  <div class="card">📅 Lease End<b>${NA(d.leaseEnd)}</b></div>
+  <div class="card">🔒 Lock-In Period<b>${NA(d.lockIn)}</b></div>
+  <div class="card">⏱ Notice Period<b>${NA(d.noticePeriod)} days</b></div>
+
+</div>
+
+<!-- Financial Summary -->
+<h3>Financial Summary</h3>
+<div class="grid">
+
+  <div class="card">💵 Monthly Base Rent<b>${NA(d.monthlyBaseRent)}</b></div>
+  <div class="card">🧾 Monthly OPEX<b>${NA(d.monthlyOpex)}</b></div>
   <div class="card">🏗 CapEx<b>${NA(d.capex)}</b></div>
+  <div class="card">📊 Annual Spend<b>${NA(d.annualSpend)}</b></div>
+
+  <div class="card">💎 Asset Value<b>${NA(d.assetValue)}</b></div>
+  <div class="card">🔐 Security Deposit<b>${NA(d.securityDeposit)}</b></div>
+
   <div class="card">💺 Cost / Seat<b>${NA(d.costPerSeat)}</b></div>
   <div class="card">📐 Cost / Sqft<b>${NA(d.costPerSqft)}</b></div>
-          <div class="card">📊 Annual Spend<b>${NA(d.annualSpend)}</b></div>
-          <div class="card">🔐 Security Deposit<b>${NA(d.securityDeposit)}</b></div>
 
-          ${d.remarks ? `
-          <div class="card" style="grid-column: span 4;">
-            📝 Remarks
-            <b>${d.remarks}</b>
-          </div>
-          ` : ''}
-        </div>
+  <div class="card">📐 Opex / Sqft<b>${NA(d.opexPerSqft)}</b></div>
+  <div class="card">💺 Opex / Seat<b>${NA(d.opexPerSeat)}</b></div>
+
+  <div class="card">🏗 Capex / Sqft<b>${NA(d.capexPerSqft)}</b></div>
+  <div class="card">🪑 Capex / Seat<b>${NA(d.capexPerSeat)}</b></div>
+
+  ${d.remarks ? `
+  <div class="card" style="grid-column: span 4;">
+    📝 Remarks
+    <b>${d.remarks}</b>
+  </div>
+  ` : ''}
+
+</div>
+
       </div>
     `;
   });
