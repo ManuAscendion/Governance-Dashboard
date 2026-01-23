@@ -890,7 +890,7 @@ fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_
 
   leaseStart: r.c[7]?.f || r.c[7]?.v,   // H
   leaseEnd: r.c[8]?.f || r.c[8]?.v,     // I
-  lockIn: r.c[9]?.v,                   // J
+  lockIn: r.c[9]?.f || r.c[9]?.v,                // J
   noticePeriod: r.c[10]?.v,             // K
 
   realEstate: r.c[11]?.v,        // L
