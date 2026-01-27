@@ -108,16 +108,26 @@
     }
 
     .label {
-      background: linear-gradient(135deg, var(--dark-teal) 0%, var(--teal) 100%);
-      color: var(--black);
-      padding: 6px 14px;
-      border-radius: 16px;
-      font-size: 13px;
-      white-space: nowrap;
-      font-weight: 700;
-      box-shadow: 0 4px 12px rgba(13, 188, 180, 0.4);
-      letter-spacing: 0.3px;
-    }
+  background: linear-gradient(135deg, var(--teal) 0%, var(--dark-teal) 100%);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 15px;
+  white-space: nowrap;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(13, 188, 180, 0.4);
+  letter-spacing: 0.5px;
+  border: 2px solid var(--white);
+  transition: all 0.3s ease;
+}
+
+/* Smaller, more compact labels for city views */
+.label.city-label {
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 20px;
+}
 
     .back-btn {
       position: absolute;
@@ -640,7 +650,18 @@ body {
   text-transform: uppercase;
   white-space: nowrap;
 }
+.clickable-label {
+  transition: all 0.3s ease;
+  font-size: 14px !important;
+}
 
+.clickable-label.force-hover {
+  background: linear-gradient(135deg, #0a9d95 0%, #085550 100%) !important;
+  transform: scale(1.08);
+  box-shadow: 0 8px 24px rgba(13, 188, 180, 0.4) !important;
+  z-index: 1000 !important;
+  border-color: #ffffff !important;
+}
 
 
   </style>
@@ -789,45 +810,45 @@ let currentCountry = null;
 
 /* ================= STATIC MAP DATA ================= */
 const countries = {
-  "United States": { lat:37, lng:-95, zoom:4 },
-  "Mexico": { lat:23, lng:-102, zoom:5 },
-  "Ireland": { lat:53, lng:-8, zoom:6 },
-  "United Kingdom": { lat:55, lng:-3, zoom:6 },
-  "Poland": { lat:52, lng:19, zoom:6 },
-  "Romania": { lat:45.9, lng:24.9, zoom:6 },
-  "India": { lat:21, lng:78, zoom:5 },
-  "Malaysia": { lat:4, lng:102, zoom:6 },
-  "Philippines": { lat:13, lng:122, zoom:6 },
-  "Singapore": { lat:1.3, lng:103.8, zoom:7 },
+  "United States": { lat:37, lng:-95, zoom:4, direction: "top", offset: [0, -15] },
+  "Mexico": { lat:23, lng:-102, zoom:5, direction: "bottom", offset: [0, 10] },
+  "Ireland": { lat:53, lng:-8, zoom:6, direction: "left", offset: [-15, 0] },
+  "United Kingdom": { lat:55, lng:-3, zoom:6, direction: "top", offset: [0, -15] },
+  "Poland": { lat:52, lng:19, zoom:6, direction: "right", offset: [15, 0] },
+  "Romania": { lat:45.9, lng:24.9, zoom:6, direction: "bottom", offset: [0, 10] },
+  "India": { lat:21, lng:78, zoom:5, direction: "top", offset: [0, -15] },
+  "Malaysia": { lat:4.5, lng:101, zoom:6, direction: "left", offset: [-15, 0] },
+  "Philippines": { lat:14, lng:122, zoom:6, direction: "right", offset: [15, 0] },
+  "Singapore": { lat:0.5, lng:105, zoom:7, direction: "right", offset: [15, 0] },
 };
-
 const cities = {
   "India": [
-    ["Vadodara",22.31,73.18],
-    ["Bangalore",12.97,77.59],
-    ["Hyderabad",17.38,78.48],
-    ["Chennai",12.70,80.27],
-    ["Pune",18.52,73.85]
+    ["Vadodara",22.31,73.18,"top",[0,-15]],
+    ["Bangalore",12.97,77.59,"left",[-15,0]],  // Changed to left
+    ["Hyderabad",17.38,78.48,"top",[0,-15]],
+    ["Chennai",12.70,80.27,"right",[15,0]],    // Changed to right
+    ["Pune",18.52,73.85,"left",[-15,0]]
   ],
   "United States": [
-    ["Atlanta",33.75,-84.39],
-    ["Austin",30.27,-97.74],
-    ["Basking Ridge",40.71,-74.55],
-    ["Charlotte",35.22,-80.84],
-    ["Chicago",41.88,-87.63],
-    ["Dallas",32.78,-96.8],
-    ["Folsom",38.68,-121.18],
-    ["Glen Allen",37.66,-77.5],
-    ["Irvine",33.68,-117.83],
-    ["Jersey City",40.72,-74.07],
-    ["Minneapolis",44.97,-93.26],
-    ["Pleasanton",37.66,-121.87],
-    ["Raleigh",35.78,-78.64],
-    ["Redmond",47.67,-122.12],
-    ["San Diego",32.71,-117.16],
-    ["San Francisco",37.77,-122.42],
-    ["San Jose",37.33,-121.89],
-    ["Tampa",27.95,-82.46]
+    ["Atlanta",33.75,-84.39,"bottom",[0,18]],
+    ["Austin",30.27,-97.74,"bottom",[0,18]],
+    ["Basking Ridge",40.71,-74.55,"top",[0,-18]],
+    ["Charlotte",35.22,-80.84,"left",[-20,0]],
+    ["Chicago",41.88,-87.63,"left",[0,18]],
+    ["Dallas",32.78,-96.8,"left",[-18,0]],
+    ["Folsom",38.68,-121.18,"top",[0,-18]],
+    ["Glen Allen",37.66,-77.5,"right",[20,0]],
+    ["Irvine",33.68,-117.83,"right",[18,0]],
+    ["Jersey City",40.72,-74.07,"left",[-20,0]],
+    ["Minneapolis",44.97,-93.26,"top",[0,-18]],
+    ["Pleasanton",37.66,-121.87,"right",[20,0]],
+    ["Raleigh",35.78,-78.64,"bottom",[20,0]],
+    ["Redmond",47.67,-122.12,"left",[-18,0]],
+    ["San Diego",32.71,-117.16,"bottom",[0,18]],
+    ["San Francisco",37.77,-122.42,"left",[-20,-5]],
+    ["San Jose",37.33,-121.89,"bottom",[0,18]],
+    ["Tampa",27.95,-82.46,"right",[18,0]]
+
   ],
   "Mexico": [
     ["Monterrey",25.68,-100.31]
@@ -1029,31 +1050,64 @@ function showWorld() {
   map.setView([20, 0], 2);
 
   Object.entries(countries).forEach(([name, c]) => {
-  const m = L.marker([c.lat, c.lng])
-    .addTo(map)
-    .bindTooltip(name, {
-      permanent: true,
-      className: "label clickable-label",
-      interactive: true
+    const m = L.circleMarker([c.lat, c.lng], {
+      radius: 8,
+      color: "#ffffff",
+      fillColor: "#0DBCB4",
+      fillOpacity: 1,
+      weight: 2,
+      opacity: 1
     })
-    .on("click", () => showCountry(name)); // dot click
+      .addTo(map)
+      .bindTooltip(name, {
+        permanent: true,
+        className: "label clickable-label",
+        direction: c.direction || "top",
+        offset: c.offset || [0, -15],
+        interactive: true
+      })
+      .on("click", () => showCountry(name));
 
-  // ✅ LABEL CLICK
-  m.on("tooltipopen", e => {
-    const el = e.tooltip.getElement();
-    if (el) {
-      el.style.cursor = "pointer";
-      el.onclick = () => showCountry(name);
-    }
+    let tooltipEl = null;
+
+    // Get tooltip element and set up label interactions
+    m.on("tooltipopen", e => {
+      tooltipEl = e.tooltip.getElement();
+      if (tooltipEl) {
+        tooltipEl.style.cursor = "pointer";
+        tooltipEl.onclick = () => showCountry(name);
+        
+        // When hovering on label, highlight the dot
+        tooltipEl.onmouseenter = () => {
+          m.setStyle({
+            radius: 8,
+            fillColor: "#0DBCB4",
+            color: "#0DBCB4",
+            weight: 3,
+            fillOpacity: 0.8
+          });
+        };
+        
+        tooltipEl.onmouseleave = () => {
+          m.setStyle({
+            radius: 8,
+            fillColor: "#0DBCB4",
+            color: "#ffffff",
+            weight: 2,
+            fillOpacity: 1
+          });
+        };
+      }
+    });
+
+    // ✅ REMOVED - No hover effect on the dot itself
+
+    countryMarkers.push(m);
   });
-
-  countryMarkers.push(m);
-});
-
 
   setTimeout(() => map.invalidateSize(), 0);
 }
-
+/* ================= COUNTRY VIEW ================= */
 /* ================= COUNTRY VIEW ================= */
 function showCountry(country) {
   currentView = "country";
@@ -1073,40 +1127,59 @@ function showCountry(country) {
 
   setTimeout(() => {
     (cities[country] || []).forEach(city => {
-
-      let direction = "right";
-      let offset = [10, 0];
-
-      // Bangalore & Pune point left
-      if (city[0] === "Bangalore" || city[0] === "Pune") {
-        direction = "left";
-        offset = [-10, 0];
-      }
+      // Use positioning data from array, or fallback to defaults
+      let direction = city[3] || "right";
+      let offset = city[4] || [10, 0];
 
       const m = L.circleMarker([city[1], city[2]], {
-  radius: 7,
-  color: "#0a8f6a",
-  fillOpacity: 1
-})
-  .addTo(map)
-  .bindTooltip(city[0], {
-    permanent: true,
-    className: "label clickable-label",
-    direction,
-    offset,
-    interactive: true
-  })
-  .on("click", () => openCity(city[0], country)); // dot click
+        radius: 8,
+        color: "#ffffff",
+        fillColor: "#0DBCB4",
+        fillOpacity: 1,
+        weight: 2,
+        opacity: 1
+      })
+        .addTo(map)
+        .bindTooltip(city[0], {
+          permanent: true,
+          className: "label clickable-label city-label",
+          direction,
+          offset,
+          interactive: true
+        })
+        .on("click", () => openCity(city[0], country));
 
-// ✅ LABEL CLICK
-m.on("tooltipopen", e => {
-  const el = e.tooltip.getElement();
-  if (el) {
-    el.style.cursor = "pointer";
-    el.onclick = () => openCity(city[0], country);
-  }
-});
+      let tooltipEl = null;
 
+      // Get tooltip element and set up label interactions
+      m.on("tooltipopen", e => {
+        tooltipEl = e.tooltip.getElement();
+        if (tooltipEl) {
+          tooltipEl.style.cursor = "pointer";
+          tooltipEl.onclick = () => openCity(city[0], country);
+          
+          // When hovering on label, highlight the dot
+          tooltipEl.onmouseenter = () => {
+            m.setStyle({
+              radius: 8,
+              fillColor: "#0DBCB4",
+              color: "#0DBCB4",
+              weight: 3,
+              fillOpacity: 0.8
+            });
+          };
+          
+          tooltipEl.onmouseleave = () => {
+            m.setStyle({
+              radius: 8,
+              fillColor: "#0DBCB4",
+              color: "#ffffff",
+              weight: 2,
+              fillOpacity: 1
+            });
+          };
+        }
+      });
 
       cityMarkers.push(m);
     });
@@ -1114,7 +1187,6 @@ m.on("tooltipopen", e => {
     map.invalidateSize();
   }, 100);
 }
-
 const bangaloreOfficeNames = [
   "Prestige Blue Chip Software Park",
   "Roach Building"
@@ -1190,7 +1262,7 @@ function openCity(city, country) {
 
   <div class="card">💵 Monthly Base Rent<b>${formatUSD(d.monthlyBaseRent)}</b></div>
   <div class="card">🧾 Monthly OPEX<b>${formatUSD(d.monthlyOpex)}</b></div>
-  <div class="card">🏗 CapEx<b>${formatUSD(d.capex)}</b></div>
+  <div class="card">🏗 Monthly CapEx<b>${formatUSD(d.capex)}</b></div>
   <div class="card">📊 Annual Spend<b>${formatUSD(d.annualSpend)}</b></div>
 
   <div class="card">💎 Asset Value<b>${formatUSD(d.assetValue)}</b></div>
