@@ -51,9 +51,9 @@ body {
 .top-section {
   background: rgba(0, 0, 0, 0.6);
   border: 2px solid rgba(0, 250, 194, 0.3);
-  border-radius: 20px;
-  margin: 12px 24px 12px 24px;
-  padding: 20px 24px;
+  border-radius: 18px;
+  margin: 10px 24px 10px 24px;
+  padding: 18px 24px;
   box-shadow: 0 8px 32px rgba(0, 250, 194, 0.15);
   flex-shrink: 0;
   backdrop-filter: blur(20px);
@@ -82,7 +82,7 @@ h1 {
 .metric-box {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(0, 250, 194, 0.3);
-  border-radius: 16px;
+  border-radius: 14px;
   padding: 16px 12px;
   text-align: center;
   transition: all 0.3s ease;
@@ -97,19 +97,18 @@ h1 {
 }
 
 .metric-icon {
-  font-size: 28px;
+  font-size: 32px;
   margin-bottom: 8px;
   filter: grayscale(0.3) brightness(1.2);
 }
 
 .metric-value {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
   color: #ffffff;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
   font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
 }
-
 
 .metric-label {
   font-size: 11px;
@@ -159,9 +158,9 @@ h1 {
   z-index: 1000;
   background: rgba(0, 0, 0, 0.85);
   color: var(--teal);
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   display: none;
@@ -189,7 +188,7 @@ h1 {
   margin: 0 24px 24px 24px;
   border-radius: 20px;
   border: 2px solid rgba(0, 250, 194, 0.3);
-  padding: 50px 40px 40px 40px;
+  padding: 80px 40px 40px 40px;
   overflow-y: auto;
   box-sizing: border-box;
   flex: 1 1 auto;
@@ -201,13 +200,13 @@ h1 {
 h2 { 
   margin-top: 0; 
   margin-left: 0;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   color: #ffffff;
-  font-size: 48px;
+  font-size: 28px;
   font-weight: 800;
-  letter-spacing: 1px;
-  padding-bottom: 24px;
-  border-bottom: 3px solid var(--teal);
+  letter-spacing: 0.5px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #07aa87;
   font-family: 'Space Grotesk', sans-serif;
   background: linear-gradient(135deg, #ffffff 0%, var(--teal) 100%);
   -webkit-background-clip: text;
@@ -217,15 +216,14 @@ h2 {
   text-shadow: none;
   filter: brightness(1.2) contrast(1.1);
 }
-
 h3 { 
-  margin-top: 50px; 
+  margin-top: 35px; 
   color: #ffffff;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 0.6px;
   text-transform: uppercase;
-  padding-bottom: 16px;
+  padding-bottom: 12px;
   border-bottom: 2px solid rgba(0, 250, 194, 0.4);
   font-family: 'Space Grotesk', sans-serif;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(0, 250, 194, 0.8) 100%);
@@ -234,7 +232,7 @@ h3 {
   background-clip: text;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   filter: brightness(1.2) contrast(1.1);
 }
 
@@ -255,12 +253,11 @@ h2, h3, .card, .office-title {
   gap: 20px;
   margin-top: 24px;
 }
-
 .card {
   border: 1px solid rgba(0, 250, 194, 0.3);
-  border-radius: 16px;
-  padding: 24px;
-  font-size: 15px;
+  border-radius: 14px;
+  padding: 20px 22px;
+  font-size: 14px;
   background: rgba(255, 255, 255, 0.03);
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -275,41 +272,43 @@ h2, h3, .card, .office-title {
   border-color: var(--teal);
   background: rgba(255, 255, 255, 0.06);
 }
-
 .card b {
   display: block;
-  margin-top: 12px;
-  font-size: 26px;
+  margin-top: 10px;
+  font-size: 22px;
   color: #ffffff;
   font-weight: 800;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.3px;
   font-family: 'Space Grotesk', sans-serif;
 }
 
 /* ========== COMPLIANCE STYLES (DARK THEME) ========== */
 .compliance-section {
-  margin-top: 50px;
-  border-top: 3px solid rgba(0, 250, 194, 0.3);
-  padding-top: 40px;
+  margin-top: 30px;
+  border-top: 2px solid rgba(0, 250, 194, 0.3);
+  padding-top: 24px;
 }
 
 .compliance-section h3 {
-  color: #ffffff;
-  font-size: 28px;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  font-size: 16px;
   font-weight: 800;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   border-bottom: none;
-  padding: 20px 28px;
+  padding: 12px 18px;
   background: linear-gradient(135deg, rgba(102, 102, 204, 0.2) 0%, rgba(139, 92, 246, 0.15) 100%);
   border: 2px solid rgba(102, 102, 204, 0.4);
-  border-radius: 16px;
+  border-radius: 12px;
   display: inline-flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
   box-shadow: 0 8px 24px rgba(102, 102, 204, 0.2);
-  letter-spacing: 0.8px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
   transition: all 0.3s ease;
+  width: auto;
+  white-space: nowrap;
 }
 
 .compliance-section h3:hover {
@@ -334,14 +333,13 @@ h2, h3, .card, .office-title {
 .compliance-site-card {
   background: linear-gradient(135deg, rgba(20, 20, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%);
   border: 2px solid rgba(0, 250, 194, 0.3);
-  border-radius: 20px;
-  padding: 32px;
-  max-width: 600px;
+  border-radius: 16px;
+  padding: 28px;
+  max-width: 700px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
 }
-
 .compliance-site-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 16px 48px rgba(0, 250, 194, 0.25);
@@ -351,24 +349,23 @@ h2, h3, .card, .office-title {
 
 .compliance-site-card h4 {
   color: #ffffff;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
-  margin: 0 0 24px 0;
+  margin: 0 0 20px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   letter-spacing: 0.5px;
   font-family: 'Space Grotesk', sans-serif;
-  padding-bottom: 16px;
+  padding-bottom: 14px;
   border-bottom: 2px solid rgba(0, 250, 194, 0.2);
 }
-
 .compliance-score {
   background: linear-gradient(135deg, var(--purple) 0%, #5B5BD6 100%);
   color: #ffffff;
-  padding: 10px 24px;
-  border-radius: 24px;
-  font-size: 20px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 18px;
   font-weight: 800;
   box-shadow: 0 6px 16px rgba(105, 102, 204, 0.4);
   letter-spacing: 0.5px;
@@ -376,10 +373,10 @@ h2, h3, .card, .office-title {
 }
 
 .compliance-chart-container {
-  height: 240px;
+  height: 260px;
   position: relative;
-  margin-top: 8px;
-  padding: 16px;
+  margin-top: 12px;
+  padding: 20px 20px 20px 40px;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 12px;
 }
@@ -778,21 +775,20 @@ h2, h3, .card, .office-title {
   padding-top: 40px;
   border-top: 3px dashed rgba(0, 250, 194, 0.3);
 }
-
 .office-title {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 800;
   color: #ffffff;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   letter-spacing: 0.5px;
   font-family: 'Space Grotesk', sans-serif;
   background: linear-gradient(135deg, rgba(0, 250, 194, 0.2) 0%, rgba(16, 185, 129, 0.15) 100%);
   border: 2px solid rgba(0, 250, 194, 0.4);
-  border-radius: 16px;
-  padding: 20px 28px;
+  border-radius: 14px;
+  padding: 16px 24px;
   display: inline-flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   box-shadow: 0 8px 24px rgba(0, 250, 194, 0.2);
   transition: all 0.3s ease;
 }
@@ -873,13 +869,27 @@ h2, h3, .card, .office-title {
 .chartjs-render-monitor {
   color: #ffffff !important;
 }
+
 .compliance-section h3 {
   -webkit-text-fill-color: #ffffff !important;
   color: #ffffff !important;
-
-  font-size: 25px;
-  padding: 15px 20px;
-  letter-spacing: 1.2px;
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  border-bottom: none;
+  padding: 14px 22px;
+  background: linear-gradient(135deg, rgba(102, 102, 204, 0.2) 0%, rgba(139, 92, 246, 0.15) 100%);
+  border: 2px solid rgba(102, 102, 204, 0.4);
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 24px rgba(102, 102, 204, 0.2);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  width: auto;
+  white-space: nowrap;
 }
 
 
@@ -1651,7 +1661,7 @@ function loadComplianceForCity(baseCity) {
         labels: cats,
         datasets: [{ data: values, backgroundColor: colors, borderRadius: 6 }]
       },
-     options: {
+    options: {
   indexAxis: "y",
   responsive: true,
   maintainAspectRatio: true,
@@ -1672,9 +1682,11 @@ function loadComplianceForCity(baseCity) {
     y: { 
       border: { display: true, color: 'rgba(255, 255, 255, 0.3)' },
       ticks: { 
-        font: { size: 14, weight: '700', family: 'Inter' },
+        font: { size: 12, weight: '700', family: 'Inter' },
         color: '#ffffff',
-        padding: 10
+        padding: 8,
+        crossAlign: 'far',
+        mirror: false
       },
       grid: { display: false }
     }
@@ -1694,7 +1706,6 @@ function loadComplianceForCity(baseCity) {
       callbacks: { label: ctx => `Compliance: ${ctx.parsed.x}%` }
     }
   }
-
 }
 
     });
