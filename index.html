@@ -1619,7 +1619,7 @@ fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_
   seatingCapacity: r.c[12]?.v,  // M
   employees: r.c[13]?.v,         // N
 
-  siteUtilization: r.c[14]?.v,          // O (NEW)
+  seatUtilization: r.c[14]?.v,          // O (NEW)
 
   monthlyBaseRent: r.c[15]?.f || r.c[15]?.v, // P (was O)
   monthlyOpex: r.c[16]?.f || r.c[16]?.v,     // Q (was P)
@@ -1951,7 +1951,7 @@ function openCity(city, country) {
   <div class="card">👥 Employees<b>${NA(d.employees)}</b></div>
   <div class="card">💺 Seating Capacity<b>${NA(d.seatingCapacity)}</b></div>
   <div class="card">📐 Area (Sqft)<b>${NA(d.realEstate)}</b></div>
-    <div class="card">📊 Monthly Site Utilization %<b>${NA(d.siteUtilization)}%</b></div>
+    <div class="card">📊 Monthly Seat Utilization %<b>${NA(d.seatUtilization)}%</b></div>
 
   <div class="card" style="grid-column: span 4;">
     📫 Address
@@ -2350,3 +2350,4 @@ function toggleTheme() {
 
 </body>
 </html>
+
