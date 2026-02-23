@@ -206,6 +206,9 @@ h2 {
   margin-top: 0; 
   margin-left: 0;
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   color: #ffffff;
   font-size: 28px;
   font-weight: 800;
@@ -1435,7 +1438,10 @@ body.light-mode .toggle-thumb {
     <div class="back-btn" id="backBtn">← Back</div>
     <div id="map"></div>
 
+
+    
     <div id="detailView">
+      
       <h2 id="detailTitle"></h2>
 
       <div id="coreGrid"></div>
@@ -1916,7 +1922,29 @@ function openCity(city, country) {
   detailView.style.display = "block";
   backBtn.style.display = "block";
 
-  detailTitle.innerText = city;
+  detailTitle.innerHTML = `
+  <span>${city}</span>
+  <button onclick="window.open('https://app.powerbi.com/groups/me/reports/5c10fd78-7907-4120-9bf1-01d58746b1d7/ef025e2522b63ddd9249?ctid=d7758e8f-1df3-489f-86b5-a2254f55f9cc&experience=power-bi', '_blank')" 
+  style="
+  background: transparent;
+  color: var(--teal);
+  -webkit-text-fill-color: var(--teal);
+  border: 2px solid var(--teal);
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 12px rgba(0,250,194,0.2);
+"
+onmouseover="this.style.background='var(--teal)'; this.style.cssText+=';-webkit-text-fill-color:#000000;color:#000000;transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,250,194,0.5);'"
+onmouseout="this.style.background='transparent'; this.style.cssText+=';-webkit-text-fill-color:var(--teal);color:var(--teal);transform:translateY(0);box-shadow:0 0 12px rgba(0,250,194,0.2);'"
+  >📊 Space Utilization Dashboard</button>
+`;
 
   const offices = cityData[city] || [];
 
@@ -1951,7 +1979,7 @@ function openCity(city, country) {
   <div class="card">👥 Employees<b>${NA(d.employees)}</b></div>
   <div class="card">💺 Seating Capacity<b>${NA(d.seatingCapacity)}</b></div>
   <div class="card">📐 Area (Sqft)<b>${NA(d.realEstate)}</b></div>
-    <div class="card">📊 Monthly Seat Utilization %<b>${NA(d.seatUtilization)}%</b></div>
+    <div class="card">🏬 Monthly Seat Utilization %<b>${NA(d.seatUtilization)}%</b></div>
 
   <div class="card" style="grid-column: span 4;">
     📫 Address
@@ -2350,4 +2378,3 @@ function toggleTheme() {
 
 </body>
 </html>
-
