@@ -822,6 +822,7 @@ h2, h3, .card, .office-title {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  pointer-events: none;
   font-size: 26px;
   font-weight: 800;
   color: #ffffff;
@@ -1360,6 +1361,302 @@ body.light-mode .toggle-thumb {
   border-color: #008F66;
 }
 
+/* ========== LEASE ALERT STYLES ========== */
+.alert-bell-btn {
+  position: relative;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(220, 38, 38, 0.6);
+  border-radius: 50px;
+  padding: 8px 18px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ff6b6b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.alert-bell-btn:hover {
+  background: rgba(220, 38, 38, 0.15);
+  border-color: #ff4444;
+  box-shadow: 0 6px 22px rgba(220, 38, 38, 0.4);
+  transform: translateY(-2px);
+}
+
+.alert-badge {
+  position: absolute;
+
+  top: -6px;
+  right: -6px;
+
+  background: linear-gradient(135deg,#ff3b3b,#dc2626);
+
+  color: white;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid #000;
+
+  box-shadow:
+    0 0 10px rgba(220,38,38,0.8);
+
+  animation: alertPulse 1.8s infinite;
+}
+
+@keyframes pulse-badge {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220,38,38,0.6); }
+  50% { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(220,38,38,0); }
+}
+
+.lease-alert-panel {
+  position: fixed;
+  top: 70px;
+  left: -520px;
+  width: 480px;
+  height: calc(100vh - 70px);
+  background: rgba(10, 10, 10, 0.98);
+  border-right: 3px solid #dc2626;
+  box-shadow: 12px 0 48px rgba(0,0,0,0.9);
+  display: flex;
+  flex-direction: column;
+  z-index: 1500;
+  transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(20px);
+}
+
+.lease-alert-panel.open { left: 0; }
+
+.lease-alert-header {
+  padding: 24px 28px;
+  border-bottom: 3px solid #dc2626;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.95);
+  flex-shrink: 0;
+}
+
+.lease-alert-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  border: none;
+  padding: 0;
+  background: linear-gradient(135deg, #ffffff 0%, #ff6b6b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  filter: none;
+}
+
+.lease-alert-close {
+  background: rgba(220,38,38,0.2);
+  color: #ff6b6b;
+  border: 2px solid rgba(220,38,38,0.5);
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lease-alert-close:hover {
+  background: rgba(220,38,38,0.35);
+  border-color: #dc2626;
+}
+
+.lease-alert-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.lease-alert-body::-webkit-scrollbar { width: 6px; }
+.lease-alert-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+.lease-alert-body::-webkit-scrollbar-thumb { background: #dc2626; border-radius: 10px; }
+
+.alert-tier-label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 20px 0 10px 0;
+  padding: 8px 14px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.alert-tier-label.critical {
+  background: rgba(220,38,38,0.15);
+  color: #ff6b6b;
+  border: 1px solid rgba(220,38,38,0.4);
+}
+
+.alert-tier-label.warning {
+  background: rgba(245,158,11,0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245,158,11,0.4);
+}
+
+.alert-card {
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  border-left: 5px solid;
+  transition: all 0.3s ease;
+}
+
+.alert-card.critical {
+  background: rgba(220,38,38,0.08);
+  border-left-color: #dc2626;
+  border: 1px solid rgba(220,38,38,0.25);
+  border-left: 5px solid #dc2626;
+}
+
+.alert-card.warning {
+  background: rgba(245,158,11,0.08);
+  border-left-color: #f59e0b;
+  border: 1px solid rgba(245,158,11,0.25);
+  border-left: 5px solid #f59e0b;
+}
+
+.alert-card:hover { transform: translateX(6px); }
+
+.alert-card-city {
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 4px;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.alert-card-office {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.alert-card-rows {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.alert-card-row {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 600;
+}
+
+.alert-card-row span {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 2px;
+}
+
+.alert-days-chip {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  margin-top: 10px;
+  letter-spacing: 0.5px;
+}
+
+.alert-days-chip.critical { background: rgba(220,38,38,0.2); color: #ff6b6b; border: 1px solid #dc2626; }
+.alert-days-chip.overdue { background: rgba(220,38,38,0.35); color: #ff4444; border: 1px solid #dc2626; }
+.alert-days-chip.warning { background: rgba(245,158,11,0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+
+.no-alerts {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255,255,255,0.4);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Light mode for alert panel */
+body.light-mode .lease-alert-panel {
+  background: #f8fafc;
+  border-right: 3px solid #dc2626;
+}
+
+body.light-mode .lease-alert-header {
+  background: #ffffff;
+  border-bottom: 3px solid #dc2626;
+}
+
+body.light-mode .lease-alert-header h2 {
+  background: linear-gradient(135deg, #111827 0%, #dc2626 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.light-mode .alert-card.critical { background: #fff5f5; }
+body.light-mode .alert-card.warning { background: #fffbeb; }
+body.light-mode .alert-card-city { color: #111827; }
+body.light-mode .alert-card-row { color: #6b7280; }
+body.light-mode .alert-card-row span { color: #111827; }
+body.light-mode .alert-bell-btn { color: #dc2626; background: rgba(220,38,38,0.06); }
+
+/* Compact bell button between logo and title */
+.alert-bell-btn {
+  position: relative;
+
+  width: 46px;
+  height: 46px;
+
+  border-radius: 50%;
+  border: 2px solid rgba(0,250,194,0.5);
+
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+  cursor: pointer;
+
+  transition: all 0.35s ease;
+
+  box-shadow:
+    0 0 10px rgba(0,250,194,0.2),
+    inset 0 0 8px rgba(0,250,194,0.1);
+}
+
+.alert-bell-btn:hover {
+  transform: scale(1.08);
+
+  border-color: #00FAC2;
+
+  box-shadow:
+    0 0 12px rgba(0,250,194,0.6),
+    0 0 30px rgba(0,250,194,0.4);
+}
+
 </style>
 </head>
 
@@ -1367,9 +1664,14 @@ body.light-mode .toggle-thumb {
 
 
 <div class="top-nav">
-  <!-- LEFT -->
-  <div class="logo-container">
-    <img src="ascendion-logo.png" alt="Company Logo">
+  <!-- LEFT — logo + bell grouped together -->
+  <div style="display:flex; align-items:center; gap:14px;">
+    <div class="logo-container">
+      <img src="ascendion-logo.png" alt="Company Logo">
+    </div>
+    <button class="alert-bell-btn" id="leaseAlertBtn" onclick="openLeaseAlertPanel()" style="display:none;">
+      🔔 <span class="alert-badge" id="alertBadge">0</span>
+    </button>
   </div>
 
   <!-- CENTER -->
@@ -1379,6 +1681,7 @@ body.light-mode .toggle-thumb {
 
   <!-- RIGHT -->
   <div class="nav-actions">
+     
   <button
     class="theme-toggle-btn"
     id="themeToggleBtn"
@@ -1616,8 +1919,15 @@ fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_
     const json = JSON.parse(t.substr(47).slice(0, -2));
 
     json.table.rows.forEach(r => {
-      const city = r.c[0]?.v; // Location
-      if (!city) return;
+  const city = r.c[0]?.v;
+  
+  // Always check N column for max employee value (even rows without a city)
+  const empVal = cleanNumber(r.c[13]?.v);
+  if (empVal > (window._maxEmployees || 0)) {
+    window._maxEmployees = empVal;
+  }
+
+  if (!city) return;
 
       // ✅ MULTI OFFICE SUPPORT
       if (!cityData[city]) {
@@ -1669,7 +1979,8 @@ fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_
       });
     
 
-    updateHeaderMetrics(); // ✅ MUST stay here
+    updateHeaderMetrics();
+    computeLeaseAlerts(); // ✅ MUST stay here
   });
 
 
@@ -1690,11 +2001,13 @@ function updateHeaderMetrics() {
 
   Object.values(cityData).flat().forEach(d => {
   totalRE += cleanNumber(d.realEstate);
-  totalPeople += cleanNumber(d.employees);
   totalSpend += cleanNumber(d.annualSpend);
   totalAssetValue += cleanNumber(d.assetValue);
   if (d.country) uniqueCountries.add(d.country);
 });
+
+// Set employees from max value found across all rows
+if (window._maxEmployees) totalPeople = window._maxEmployees;
 
   // Countries
   document.getElementById("totalCountries").innerText = uniqueCountries.size;
@@ -2391,6 +2704,133 @@ function toggleTheme() {
   label.textContent = isLight ? "☀️ Light" : "🌙 Dark";
 
   updateAllChartColors();
+}
+
+/* ================= LEASE ALERT PANEL ================= */
+
+// Inject the panel HTML into the body
+document.body.insertAdjacentHTML('beforeend', `
+  <div class="lease-alert-panel" id="leaseAlertPanel">
+    <div class="lease-alert-header">
+      <h2>🔔 Lease Alerts</h2>
+      <button class="lease-alert-close" onclick="closeLeaseAlertPanel()">✕ Close</button>
+    </div>
+    <div class="lease-alert-body" id="leaseAlertBody"></div>
+  </div>
+`);
+
+function openLeaseAlertPanel() {
+  document.getElementById("leaseAlertPanel").classList.add("open");
+}
+
+function closeLeaseAlertPanel() {
+  document.getElementById("leaseAlertPanel").classList.remove("open");
+}
+
+function computeLeaseAlerts() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const critical = []; // action deadline already passed OR within 30 days
+  const warning  = []; // action deadline within 31–90 days
+
+  Object.entries(cityData).forEach(([city, offices]) => {
+    offices.forEach(d => {
+      if (!d.leaseEnd || !d.noticePeriod) return;
+
+      // Parse lease end date
+      const leaseEnd = new Date(d.leaseEnd);
+      if (isNaN(leaseEnd)) return;
+
+      const noticeDays = parseInt(String(d.noticePeriod).replace(/[^0-9]/g, ""));
+      if (!noticeDays || isNaN(noticeDays)) return;
+
+      // Action deadline = leaseEnd minus noticePeriod days
+      const actionDeadline = new Date(leaseEnd);
+      actionDeadline.setDate(actionDeadline.getDate() - noticeDays);
+
+      const daysUntilAction = Math.ceil((actionDeadline - today) / (1000 * 60 * 60 * 24));
+
+      const entry = {
+        city,
+        officeName: d.officeName || "",
+        leaseEnd: leaseEnd.toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" }),
+        noticeDays,
+        actionDeadline: actionDeadline.toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" }),
+        daysUntilAction
+      };
+
+      // Skip anything more than 30 days away from action deadline
+      if (daysUntilAction > 30) return;
+
+      if (daysUntilAction <= 0)       critical.push(entry);
+      else if (daysUntilAction <= 30) warning.push(entry);
+    });
+  });
+
+  // Sort each tier: most urgent first
+  critical.sort((a, b) => a.daysUntilAction - b.daysUntilAction);
+  warning.sort((a, b) => a.daysUntilAction - b.daysUntilAction);
+
+  const totalAlerts = critical.length + warning.length;
+
+  // Update bell button
+  const btn = document.getElementById("leaseAlertBtn");
+  const badge = document.getElementById("alertBadge");
+  if (totalAlerts > 0) {
+    btn.style.display = "flex";
+    badge.textContent = totalAlerts;
+  } else {
+    btn.style.display = "none";
+  }
+
+  // Build panel content
+  const body = document.getElementById("leaseAlertBody");
+  body.innerHTML = "";
+
+  if (totalAlerts === 0) {
+    body.innerHTML = `<div class="no-alerts">✅ No lease alerts at this time</div>`;
+    return;
+  }
+
+  function renderCard(entry, tier) {
+    let chipLabel, chipClass;
+    if (entry.daysUntilAction <= 0) {
+      chipLabel = `⚠️ Overdue by ${Math.abs(entry.daysUntilAction)} days`;
+      chipClass = "overdue";
+    } else if (tier === "critical") {
+      chipLabel = `🔴 Act within ${entry.daysUntilAction} days`;
+      chipClass = "critical";
+    } else {
+      chipLabel = `🟡 ${entry.daysUntilAction} days to act`;
+      chipClass = "warning";
+    }
+
+    return `
+      <div class="alert-card ${tier}">
+        <div class="alert-card-city">${entry.city}</div>
+        ${entry.officeName ? `<div class="alert-card-office">${entry.officeName}</div>` : ""}
+        <div class="alert-card-rows">
+          <div class="alert-card-row">📅 Lease End Date<span>${entry.leaseEnd}</span></div>
+          <div class="alert-card-row">⏱ Notice Period<span>${entry.noticeDays} days</span></div>
+          <div class="alert-card-row" style="grid-column:span 2;">
+            🎯 Must Act By<span style="color:${tier === 'critical' ? '#ff6b6b' : '#fbbf24'};">${entry.actionDeadline}</span>
+          </div>
+        </div>
+        <div class="alert-days-chip ${chipClass}">${chipLabel}</div>
+      </div>
+    `;
+  }
+
+  if (critical.length > 0) {
+    body.innerHTML += `<div class="alert-tier-label critical">🔴 Critical — Immediate Action Required (${critical.length})</div>`;
+    critical.forEach(e => body.innerHTML += renderCard(e, "critical"));
+  }
+
+  if (warning.length > 0) {
+    body.innerHTML += `<div class="alert-tier-label warning">🟡 Warning — Action Needed Soon (${warning.length})</div>`;
+    warning.forEach(e => body.innerHTML += renderCard(e, "warning"));
+  }
 }
 
 </script>
